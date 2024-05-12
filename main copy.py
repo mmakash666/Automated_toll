@@ -5,19 +5,19 @@ import pytesseract
 from PIL import Image
 import imutils
 import matplotlib.pyplot as plt
-#pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR/tesseract.exe"
-image = cv2.imread("car_images/Cars234.png")
+#pytesseract.pytesseract.tesseract_cmd = r"C:\Users\21 Tech\AppData\Local\Programs\Python\Python312\Lib\site-packages\pytesseract"
+original_image = cv2.imread("car_images/Cars234.png")
 
-
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-gray = cv2.bilateralFilter(gray, 11,17,17)
-plt.imshow(cv2.cvtColor(gray, cv2.COLOR_BGR2RGB))
+# turn image grayscale -> binarize image (boost contrast)
+grayscale_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
+binarized_image = cv2.bilateralFilter(grayscale_image, 11,17,17)
+plt.imshow(cv2.cvtColor(binarized_image, cv2.COLOR_BGR2RGB))
 plt.show()
 
 
-edge = cv2.Canny(gray, 170,200)
+edge = cv2.Canny(binarized_image, 170,200)
 cnts, new = cv2.findContours(edge.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-image1 = image.copy()
+image1 = original_image.copy()
 cv2.drawContours(image1,cnts,-1,(0,225,0),3)
 cnts =sorted(cnts, key=cv2.contourArea, reverse=True)[:30]
 NumberPlateCount = None
