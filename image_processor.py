@@ -43,11 +43,11 @@ def detect_numberplate(original_image_path, cropped_image_path):
             image_name_numbering +=1
             break
 
-    os.rename("1.png", cropped_image_path)
+    os.replace("1.png", cropped_image_path)
     cropped_image = cv2.imread(cropped_image_path)
 
     # showing all image created in each processing step
-    debug = False
+    debug = True
     if debug:
         show_image(grayscale_image)
         show_image(smoothened_image)
@@ -60,7 +60,7 @@ def detect_numberplate(original_image_path, cropped_image_path):
 
 
 def read_license_number_OCR(numberplate_image_path):
-    reader = easyocr.Reader(['en'])
+    reader = easyocr.Reader(['en'], False)
     result = reader.readtext(numberplate_image_path)
     for detection in result:
         print(detection[1])  # Index 1 contains the recognized text
@@ -69,5 +69,5 @@ def read_license_number_OCR(numberplate_image_path):
 
 
 if __name__ == '__main__':
-    detect_numberplate("car_images/Cars11.png", 'numberplate_cropped.png')
+    detect_numberplate("car_images/Cars14.png", 'numberplate_cropped.png')
     read_license_number_OCR('numberplate_cropped.png')
