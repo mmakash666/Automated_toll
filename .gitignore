@@ -1,0 +1,2 @@
+#ignore car_images folder because it will never be changed and is a large file
+car_images/
